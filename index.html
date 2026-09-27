@@ -1,0 +1,1489 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ARDS 呼吸器設定工具</title>
+
+<style>
+:root {
+    --blue:#2563eb;
+    --blue-light:#eff6ff;
+    --green:#15803d;
+    --green-light:#f0fdf4;
+    --yellow:#a16207;
+    --yellow-light:#fefce8;
+    --red:#b91c1c;
+    --red-light:#fef2f2;
+    --gray:#64748b;
+    --border:#dbe2ea;
+    --background:#f8fafc;
+    --card:#ffffff;
+}
+
+* {
+    box-sizing:border-box;
+}
+
+body {
+    margin:0;
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        "Noto Sans TC",
+        Arial,
+        sans-serif;
+    background:var(--background);
+    color:#0f172a;
+}
+
+.container {
+    max-width:1200px;
+    margin:auto;
+    padding:24px;
+}
+
+h1 {
+    margin-bottom:4px;
+}
+
+.subtitle {
+    color:var(--gray);
+    margin-bottom:24px;
+}
+
+.grid {
+    display:grid;
+    grid-template-columns:360px 1fr;
+    gap:20px;
+}
+
+.card {
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:20px;
+    margin-bottom:16px;
+}
+
+label {
+    display:block;
+    font-weight:600;
+    margin-top:14px;
+}
+
+input,
+select {
+    width:100%;
+    padding:11px;
+    margin-top:5px;
+    border-radius:8px;
+    border:1px solid #cbd5e1;
+    font-size:16px;
+    background:white;
+}
+
+button {
+    width:100%;
+    margin-top:20px;
+    padding:13px;
+    border:0;
+    border-radius:9px;
+    background:var(--blue);
+    color:white;
+    font-weight:700;
+    font-size:16px;
+    cursor:pointer;
+}
+
+button:hover {
+    background:#1d4ed8;
+}
+
+.results {
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.result-box {
+    background:white;
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:15px;
+}
+
+.result-label {
+    color:var(--gray);
+    font-size:13px;
+}
+
+.result-value {
+    font-size:25px;
+    font-weight:700;
+    margin-top:5px;
+}
+
+.small {
+    font-size:13px;
+    color:var(--gray);
+}
+
+.alert {
+    padding:15px;
+    border-radius:10px;
+    margin-top:12px;
+}
+
+.alert-green {
+    background:var(--green-light);
+    color:var(--green);
+}
+
+.alert-yellow {
+    background:var(--yellow-light);
+    color:var(--yellow);
+}
+
+.alert-red {
+    background:var(--red-light);
+    color:var(--red);
+}
+
+.alert-blue {
+    background:var(--blue-light);
+    color:#1d4ed8;
+}
+
+table {
+    width:100%;
+    border-collapse:collapse;
+    margin-top:12px;
+}
+
+th,
+td {
+    border:1px solid var(--border);
+    padding:8px;
+    text-align:center;
+}
+
+th {
+    background:#f1f5f9;
+}
+
+.section-title {
+    font-size:18px;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.big {
+    font-size:22px;
+    font-weight:700;
+}
+
+hr {
+    border:0;
+    border-top:1px solid var(--border);
+    margin:18px 0;
+}
+
+.footer {
+    color:var(--gray);
+    font-size:12px;
+    line-height:1.6;
+}
+
+@media(max-width:850px) {
+
+    .grid {
+        grid-template-columns:1fr;
+    }
+
+    .results {
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+@media(max-width:500px) {
+
+    .container {
+        padding:12px;
+    }
+
+    .results {
+        grid-template-columns:1fr;
+    }
+
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>ARDS 呼吸器設定工具</h1>
+
+<div class="subtitle">
+2023 Global ARDS Definition / ESICM 2023 / ATS 2024 / ARDSNet
+</div>
+
+
+<div class="grid">
+
+<!-- INPUT -->
+
+<div>
+
+<div class="card">
+
+<div class="section-title">
+病人資料
+</div>
+
+<label>
+性別
+<select id="sex">
+<option value="male">男性</option>
+<option value="female">女性</option>
+</select>
+</label>
+
+
+<label>
+身高 (cm)
+<input
+type="number"
+id="height"
+value="170"
+min="120"
+max="220">
+</label>
+
+
+<label>
+P/F Ratio
+<input
+type="number"
+id="pf"
+value="120"
+min="20"
+max="600">
+</label>
+
+
+<label>
+目前 FiO₂
+<input
+type="number"
+id="fio2"
+value="0.60"
+min="0.21"
+max="1"
+step="0.05">
+</label>
+
+<div class="small">
+例如 FiO₂ 60% → 輸入 0.60
+</div>
+
+
+<hr>
+
+
+<div class="section-title">
+肺力學（選填）
+</div>
+
+
+<label>
+Plateau pressure
+(cmH₂O)
+
+<input
+type="number"
+id="plateau"
+placeholder="例如 27">
+</label>
+
+
+<label>
+Total PEEP
+(cmH₂O)
+
+<input
+type="number"
+id="currentPeep"
+placeholder="例如 12">
+</label>
+
+
+<button onclick="calculate()">
+計算
+</button>
+
+</div>
+
+</div>
+
+
+
+<!-- OUTPUT -->
+
+<div>
+
+
+<!-- BASIC RESULTS -->
+
+<div class="results">
+
+<div class="result-box">
+
+<div class="result-label">
+Predicted Body Weight
+</div>
+
+<div
+class="result-value"
+id="pbw">
+-
+</div>
+
+<div class="small">
+kg
+</div>
+
+</div>
+
+
+
+<div class="result-box">
+
+<div class="result-label">
+Vt 6 mL/kg
+</div>
+
+<div
+class="result-value"
+id="vt">
+-
+</div>
+
+<div class="small">
+mL
+</div>
+
+</div>
+
+
+
+<div class="result-box">
+
+<div class="result-label">
+Vt 可調範圍
+</div>
+
+<div
+class="result-value"
+id="vtRange">
+-
+</div>
+
+<div class="small">
+4–8 mL/kg PBW
+</div>
+
+</div>
+
+
+
+<div class="result-box">
+
+<div class="result-label">
+ARDS severity
+</div>
+
+<div
+class="result-value"
+id="severity">
+-
+</div>
+
+<div
+class="small"
+id="severityDetail">
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- Ventilator strategy -->
+
+<div class="card">
+
+<div class="section-title">
+Lung-protective ventilation
+</div>
+
+
+<div id="ventilatorAdvice">
+</div>
+
+
+<div class="alert alert-blue">
+
+<strong>Plateau pressure：</strong>
+
+目標通常
+
+<strong>
+&lt;30 cmH₂O
+</strong>
+
+<br>
+
+Vt 建議以
+<strong>
+6 mL/kg PBW
+</strong>
+開始。
+
+若 plateau pressure 過高，
+可逐步降至約
+4 mL/kg PBW。
+
+</div>
+
+</div>
+
+
+
+<!-- PEEP -->
+
+<div class="card">
+
+<div class="section-title">
+ARDSNet PEEP / FiO₂
+</div>
+
+
+<div id="peepRecommendation"
+class="big">
+-
+</div>
+
+
+<div
+class="small"
+id="peepExplanation">
+</div>
+
+
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>
+FiO₂
+</th>
+
+<th>
+PEEP
+</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+<tr>
+<td>0.30</td>
+<td>5</td>
+</tr>
+
+<tr>
+<td>0.40</td>
+<td>5–8</td>
+</tr>
+
+<tr>
+<td>0.50</td>
+<td>8–10</td>
+</tr>
+
+<tr>
+<td>0.60</td>
+<td>10</td>
+</tr>
+
+<tr>
+<td>0.70</td>
+<td>10–14</td>
+</tr>
+
+<tr>
+<td>0.80</td>
+<td>14</td>
+</tr>
+
+<tr>
+<td>0.90</td>
+<td>14–18</td>
+</tr>
+
+<tr>
+<td>1.00</td>
+<td>18–24</td>
+</tr>
+
+</tbody>
+
+</table>
+
+
+<div class="small" style="margin-top:10px">
+
+ARDSNet lower-PEEP /
+higher-FiO₂ table。
+
+氧合目標可參考
+PaO₂ 55–80 mmHg 或
+SpO₂ 88–95%。
+
+</div>
+
+</div>
+
+
+
+<!-- PRONE -->
+
+<div class="card">
+
+<div class="section-title">
+Prone positioning
+</div>
+
+<div id="proneAdvice">
+-
+</div>
+
+</div>
+
+
+
+<!-- ECMO -->
+
+<div class="card">
+
+<div class="section-title">
+VV-ECMO 轉介評估
+</div>
+
+<div id="ecmoAdvice">
+-
+</div>
+
+
+<div class="small"
+style="margin-top:12px">
+
+常用 severe ARDS / EOLIA
+生理嚴重度條件：
+
+<br><br>
+
+• P/F &lt;50 持續 &gt;3 h
+
+<br>
+
+或
+
+<br>
+
+• P/F &lt;80 持續 &gt;6 h
+
+<br>
+
+或
+
+<br>
+
+• pH &lt;7.25 且
+PaCO₂ ≥60 mmHg
+持續 &gt;6 h，
+
+<br>
+
+且已採取最佳化
+lung-protective ventilation。
+
+</div>
+
+</div>
+
+
+
+<!-- DRIVING PRESSURE -->
+
+<div class="card">
+
+<div class="section-title">
+Driving Pressure
+</div>
+
+<div id="drivingPressure">
+請輸入 Plateau pressure 與 total PEEP。
+</div>
+
+</div>
+
+
+
+<!-- IMPORTANT -->
+
+<div class="card">
+
+<div class="section-title">
+ARDS 臨床檢查
+</div>
+
+<div class="small">
+
+<strong>Global ARDS Definition 不能只靠 P/F ratio。</strong>
+
+<br><br>
+
+仍須確認：
+
+<br>
+
+• 急性發作或惡化通常於 1 週內
+
+<br>
+
+• 肺部影像有雙側 opacity
+
+<br>
+
+• 不能完全由
+cardiogenic pulmonary edema /
+fluid overload 解釋
+
+<br>
+
+• 氧合異常符合 ARDS 定義
+
+<br><br>
+
+本工具主要用於
+<strong>
+已判定或高度懷疑 ARDS
+</strong>
+之呼吸器初始設定與床邊提示。
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
+
+
+
+<div class="footer">
+
+Clinical decision-support tool only.
+
+所有設定仍須依
+ABG、SpO₂、呼吸器波形、
+plateau pressure、
+lung compliance、
+血流動力學、
+auto-PEEP、
+呼吸器同步性及病因調整。
+
+<br><br>
+
+重要：
+Driving pressure 約 15 cmH₂O
+可作為肺力學風險監測指標，
+但並不是 ESICM / ATS
+獨立規定的強制治療 target。
+
+</div>
+
+
+</div>
+
+
+
+<script>
+
+function calculatePBW(sex,height){
+
+    if(sex==="male"){
+
+        return 50 +
+        0.91*(height-152.4);
+
+    }
+
+    return 45.5 +
+    0.91*(height-152.4);
+
+}
+
+
+
+function classifyARDS(pf){
+
+    if(pf > 300){
+
+        return {
+            severity:"未達 ARDS 氧合門檻",
+            detail:"P/F >300"
+        };
+
+    }
+
+    if(pf > 200){
+
+        return {
+            severity:"Mild",
+            detail:"200 < P/F ≤300"
+        };
+
+    }
+
+    if(pf > 100){
+
+        return {
+            severity:"Moderate",
+            detail:"100 < P/F ≤200"
+        };
+
+    }
+
+    return {
+        severity:"Severe",
+        detail:"P/F ≤100"
+    };
+
+}
+
+
+
+function getPEEP(fio2){
+
+    const table=[
+
+        {fio2:0.30,peep:"5"},
+
+        {fio2:0.40,peep:"5–8"},
+
+        {fio2:0.50,peep:"8–10"},
+
+        {fio2:0.60,peep:"10"},
+
+        {fio2:0.70,peep:"10–14"},
+
+        {fio2:0.80,peep:"14"},
+
+        {fio2:0.90,peep:"14–18"},
+
+        {fio2:1.00,peep:"18–24"}
+
+    ];
+
+
+    if(fio2 < 0.30){
+
+        return null;
+
+    }
+
+
+    let closest=table[0];
+
+    let difference=
+    Math.abs(fio2-table[0].fio2);
+
+
+    table.forEach(row=>{
+
+        const d=
+        Math.abs(fio2-row.fio2);
+
+        if(d < difference){
+
+            difference=d;
+
+            closest=row;
+
+        }
+
+    });
+
+
+    return closest;
+
+}
+
+
+
+function calculate(){
+
+    const sex=
+    document.getElementById("sex").value;
+
+    const height=
+    parseFloat(
+        document.getElementById("height").value
+    );
+
+    const pf=
+    parseFloat(
+        document.getElementById("pf").value
+    );
+
+    const fio2=
+    parseFloat(
+        document.getElementById("fio2").value
+    );
+
+
+    const plateau=
+    parseFloat(
+        document.getElementById("plateau").value
+    );
+
+    const currentPeep=
+    parseFloat(
+        document.getElementById("currentPeep").value
+    );
+
+
+
+    if(
+        !height ||
+        height < 120 ||
+        height > 220
+    ){
+
+        alert(
+            "請確認身高，建議輸入 120–220 cm。"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !pf ||
+        pf < 20 ||
+        pf > 600
+    ){
+
+        alert(
+            "請確認 P/F ratio。"
+        );
+
+        return;
+
+    }
+
+
+    if(
+        !fio2 ||
+        fio2 < 0.21 ||
+        fio2 > 1
+    ){
+
+        alert(
+            "FiO₂ 請輸入 0.21–1.00。"
+        );
+
+        return;
+
+    }
+
+
+
+    /*
+    Predicted Body Weight
+
+    Male:
+    PBW =
+    50 + 0.91 × (height cm − 152.4)
+
+    Female:
+    PBW =
+    45.5 + 0.91 × (height cm − 152.4)
+    */
+
+    const pbw=
+    calculatePBW(
+        sex,
+        height
+    );
+
+
+    const vt4=
+    Math.round(
+        pbw*4
+    );
+
+
+    const vt6=
+    Math.round(
+        pbw*6
+    );
+
+
+    const vt8=
+    Math.round(
+        pbw*8
+    );
+
+
+
+    document.getElementById(
+        "pbw"
+    ).innerText=
+    pbw.toFixed(1);
+
+
+
+    document.getElementById(
+        "vt"
+    ).innerText=
+    vt6;
+
+
+
+    document.getElementById(
+        "vtRange"
+    ).innerText=
+    vt4+"–"+vt8;
+
+
+
+    /*
+    ARDS severity
+    */
+
+    const ards=
+    classifyARDS(pf);
+
+
+    document.getElementById(
+        "severity"
+    ).innerText=
+    ards.severity;
+
+
+    document.getElementById(
+        "severityDetail"
+    ).innerText=
+    ards.detail;
+
+
+
+    /*
+    Ventilator recommendation
+    */
+
+    document.getElementById(
+        "ventilatorAdvice"
+    ).innerHTML=
+
+    "<strong>建議起始 Vt：</strong> "
+
+    +vt6+
+
+    " mL"
+
+    +"（6 mL/kg PBW）"
+
+    +"<br><br>"
+
+    +"可依 plateau pressure、"
+    +"respiratory-system compliance、"
+    +"同步性與酸鹼狀態，"
+
+    +"在約 "
+
+    +"<strong>"+vt4+
+    "–"+vt8+
+    " mL</strong>"
+
+    +" 範圍內調整。";
+
+
+
+    /*
+    PEEP table
+    */
+
+    const peep=
+    getPEEP(fio2);
+
+
+    if(peep){
+
+        document.getElementById(
+            "peepRecommendation"
+        ).innerText=
+
+        "PEEP 約 "+
+        peep.peep+
+        " cmH₂O";
+
+
+        document.getElementById(
+            "peepExplanation"
+        ).innerText=
+
+        "目前 FiO₂ "+
+        fio2.toFixed(2)+
+        "；最接近 ARDSNet FiO₂ "
+        +peep.fio2.toFixed(2)+
+        " 的 lower-PEEP table。";
+
+    }
+
+    else{
+
+        document.getElementById(
+            "peepRecommendation"
+        ).innerText=
+
+        "FiO₂ <0.30";
+
+
+        document.getElementById(
+            "peepExplanation"
+        ).innerText=
+
+        "目前低於 ARDSNet PEEP/FiO₂ table 常用起始範圍，不建議單純由本表反推 PEEP。";
+
+    }
+
+
+
+    /*
+    ATS 2024:
+    higher PEEP may be appropriate
+    in moderate-to-severe ARDS.
+    */
+
+    if(pf <= 200){
+
+        document.getElementById(
+            "peepExplanation"
+        ).innerHTML +=
+
+        "<br><br>"
+
+        +"<strong>"
+        +"Moderate–severe ARDS："
+        +"</strong>"
+
+        +"ATS 2024 對此族群"
+        +"條件式建議 higher PEEP "
+        +"without prolonged recruitment maneuver。"
+        +"實際 PEEP 應依"
+        +"compliance、hemodynamics "
+        +"及 overdistension 風險調整。";
+
+    }
+
+
+
+    /*
+    Prone positioning
+
+    ESICM 2023:
+    P/F <150
+    after optimization
+    prolonged session >=16 h
+    */
+
+    const prone=
+    document.getElementById(
+        "proneAdvice"
+    );
+
+
+    if(pf < 150){
+
+        prone.className=
+        "alert alert-red";
+
+
+        prone.innerHTML=
+
+        "<strong>"
+        +"建議早期俯臥治療"
+        +"</strong>"
+
+        +"<br><br>"
+
+        +"P/F = "+pf+
+
+        "，低於 150。"
+
+        +"<br>"
+
+        +"若已完成 low Vt、"
+        +"PEEP 與血流動力學最佳化，"
+        +"仍 P/F <150，"
+
+        +"建議 prone positioning "
+
+        +"<strong>"
+        +"每次至少 16 小時"
+        +"</strong>。";
+
+    }
+
+    else if(pf <= 200){
+
+        prone.className=
+        "alert alert-yellow";
+
+
+        prone.innerHTML=
+
+        "目前 P/F = "+pf+
+        "。"
+
+        +"<br><br>"
+
+        +"尚未達 ESICM "
+        +"P/F <150 的強烈俯臥門檻，"
+
+        +"但屬 moderate ARDS；"
+
+        +"若最佳化呼吸器後"
+        +"P/F 下降至 <150，"
+        +"應啟動 prolonged proning。";
+
+    }
+
+    else{
+
+        prone.className=
+        "alert alert-green";
+
+
+        prone.innerHTML=
+
+        "目前 P/F = "+pf+
+        "，未達標準的 P/F <150 "
+        +"俯臥治療門檻。";
+
+    }
+
+
+
+    /*
+    ECMO
+    */
+
+    const ecmo=
+    document.getElementById(
+        "ecmoAdvice"
+    );
+
+
+    if(pf < 50){
+
+        ecmo.className=
+        "alert alert-red";
+
+
+        ecmo.innerHTML=
+
+        "<strong>"
+        +"立即考慮與 ECMO center 討論"
+        +"</strong>"
+
+        +"<br><br>"
+
+        +"目前 P/F = "+pf+"。"
+
+        +"若 P/F <50 "
+        +"持續 >3 小時，"
+
+        +"且最佳化 conventional "
+        +"ARDS therapy 仍失敗，"
+
+        +"符合常用 EOLIA / ESICM "
+        +"嚴重低氧條件。";
+
+    }
+
+    else if(pf < 80){
+
+        ecmo.className=
+        "alert alert-red";
+
+
+        ecmo.innerHTML=
+
+        "<strong>"
+        +"建議早期 ECMO center 轉介 / 會診"
+        +"</strong>"
+
+        +"<br><br>"
+
+        +"目前 P/F = "+pf+"。"
+
+        +"若 P/F <80 "
+        +"持續 >6 小時，"
+
+        +"在最佳化 lung-protective ventilation、"
+        +"PEEP 與 prone positioning 後仍未改善，"
+
+        +"符合常用 severe ARDS "
+        +"VV-ECMO 評估條件。";
+
+    }
+
+    else if(pf <= 100){
+
+        ecmo.className=
+        "alert alert-yellow";
+
+
+        ecmo.innerHTML=
+
+        "<strong>"
+        +"Severe ARDS"
+        +"</strong>"
+
+        +"<br><br>"
+
+        +"目前尚不能僅由單次 P/F "
+        +"判定 ECMO indication。"
+
+        +"若氧合持續惡化、"
+        +"ventilatory pressure 過高、"
+        +"或合併 severe hypercapnic acidosis，"
+
+        +"應及早與 ECMO center 討論。";
+
+    }
+
+    else{
+
+        ecmo.className=
+        "alert alert-green";
+
+
+        ecmo.innerHTML=
+
+        "目前 P/F 單項未達常用 "
+        +"VV-ECMO severe hypoxemia threshold。"
+
+        +"仍需依病程、"
+        +"mechanical ventilation duration、"
+        +"pH / PaCO₂、"
+        +"可逆病因及其他器官功能判斷。";
+
+    }
+
+
+
+    /*
+    Driving pressure
+
+    ΔP =
+    Pplat − total PEEP
+
+    ~15 cmH2O used as
+    risk-monitoring threshold,
+    not absolute guideline target.
+    */
+
+    const dpOutput=
+    document.getElementById(
+        "drivingPressure"
+    );
+
+
+    if(
+        !isNaN(plateau) &&
+        !isNaN(currentPeep)
+    ){
+
+        if(plateau < currentPeep){
+
+            dpOutput.className=
+            "alert alert-red";
+
+
+            dpOutput.innerHTML=
+
+            "輸入異常："
+            +"Plateau pressure "
+            +"不應低於 total PEEP。";
+
+        }
+
+        else{
+
+            const dp=
+            plateau-currentPeep;
+
+
+            let html=
+
+            "<strong>"
+            +"Driving pressure = "
+            +dp.toFixed(0)
+            +" cmH₂O"
+            +"</strong>"
+
+            +"<br><br>"
+
+            +"ΔP = Pplat − total PEEP";
+
+
+            if(plateau >= 30){
+
+                dpOutput.className=
+                "alert alert-red";
+
+
+                html +=
+
+                "<br><br>"
+
+                +"Plateau pressure = "
+                +plateau+
+                " cmH₂O，"
+
+                +"已達或超過常用 "
+                +"30 cmH₂O 上限。"
+
+                +"建議重新評估 Vt、"
+                +"PEEP、lung compliance、"
+                +"auto-PEEP、"
+                +"胸壁力學與呼吸器同步性。";
+
+            }
+
+            else if(dp > 15){
+
+                dpOutput.className=
+                "alert alert-yellow";
+
+
+                html +=
+
+                "<br><br>"
+
+                +"ΔP >15 cmH₂O，"
+
+                +"屬較高肺應力風險訊號。"
+
+                +"建議重新檢視 Vt、"
+                +"PEEP 與 respiratory-system compliance。"
+
+                +"15 cmH₂O 是風險監測門檻，"
+                +"並非 ATS / ESICM "
+                +"規定的絕對 target。";
+
+            }
+
+            else{
+
+                dpOutput.className=
+                "alert alert-green";
+
+
+                html +=
+
+                "<br><br>"
+
+                +"Plateau pressure <30 cmH₂O，"
+                +"且 driving pressure "
+                +"未超過常用 15 cmH₂O "
+                +"風險監測門檻。";
+
+            }
+
+
+            dpOutput.innerHTML=
+            html;
+
+        }
+
+    }
+
+    else{
+
+        dpOutput.className="";
+
+        dpOutput.innerHTML=
+
+        "輸入 Plateau pressure "
+        +"與 total PEEP 後，"
+
+        +"自動計算 "
+
+        +"<strong>"
+        +"ΔP = Pplat − PEEP"
+        +"</strong>。";
+
+    }
+
+}
+
+
+/*
+Auto calculate when input changes
+*/
+
+document
+.querySelectorAll(
+    "input,select"
+)
+.forEach(
+    element=>{
+        element.addEventListener(
+            "input",
+            calculate
+        );
+    }
+);
+
+
+/*
+Initial calculation
+*/
+
+calculate();
+
+</script>
+
+</body>
+</html>
