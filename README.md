@@ -259,33 +259,56 @@ Early referral, not late rescue
 
 ---
 
-# 使用方式
+# v2.0 更新（2026-10-25）
 
-本專案為純 HTML / CSS / JavaScript。
-
-不需要：
-
-- Node.js
-- npm
-- Python
-- Web server
-- Database
-
-下載後直接開啟：
-
-```text
-ards_ventilator_tool.html
-```
-
-即可使用。
+- 輸入中途不再跳出 `alert()`：錯誤改為頁面內提示並標紅欄位，其他結果照常計算
+- 氧合來源可選 PaO₂（自動算 P/F）、直接輸入 P/F，或 SpO₂（S/F；2024 Global definition：mild 235–315、moderate 148–235、severe ≤148，SpO₂ >97% 不適用）
+- FiO₂ 可輸入 0.60 或 60
+- PEEP/FiO₂：同時列出 lower 與 higher PEEP table 並標示對應列；FiO₂ 介於兩列時列出上下兩列（原版浮點數取最近值會任意選列）；moderate–severe 依 ATS 2024 以 higher table 為主
+- 輸入目前 Vt → mL/kg PBW 與 ARDSNet Pplat 調整（>30 降 1 mL/kg 至最低 4；<25 且 <6 升回 6）
+- Driving pressure + Crs（Vt/ΔP）
+- pH → RR 調整建議（目標 7.30–7.45）
+- VV-ECMO 依 EOLIA 完整條件：P/F、pH/PaCO₂、持續時間、是否已最佳化
+- 俯臥提示加入 PROSEVA FiO₂ ≥0.6 條件
+- 示例病例標示「示例」，可一鍵重設或清空；手機版版面修正；參考文獻
 
 ---
 
-# 建議專案結構
+# 使用方式
+
+純 HTML / CSS / JavaScript，單一 `index.html`，直接開啟即可，或使用 GitHub Pages：
+
+https://yht5582-source.github.io/ARDS-ventilatior/
+
+決策邏輯集中在 `index.html` 的 `/*ENGINE-START*/ … /*ENGINE-END*/`，測試：
 
 ```text
-ards-ventilator-tool/
-│
-├── index.html
+node tests.cjs
+```
+
+---
+
+# 專案結構
+
+```text
+ARDS-ventilatior/
+├── index.html   # 介面 + 決策引擎
+├── tests.cjs    # 引擎測試
 ├── README.md
-└
+└── .nojekyll
+```
+
+---
+
+# 參考文獻
+
+- Matthay MA, et al. A New Global Definition of ARDS. Am J Respir Crit Care Med 2024;209:37–47.
+- Grasselli G, et al. ESICM guidelines on acute respiratory distress syndrome. Intensive Care Med 2023;49:727–759.
+- Qadir N, et al. An Update on Management of Adult Patients with ARDS: An Official ATS Clinical Practice Guideline. Am J Respir Crit Care Med 2024;209:24–36.
+- ARDSNet. N Engl J Med 2000;342:1301–8；ALVEOLI. N Engl J Med 2004;351:327–36.
+- Guérin C, et al. PROSEVA. N Engl J Med 2013;368:2159–68.
+- Combes A, et al. EOLIA. N Engl J Med 2018;378:1965–75.
+
+---
+
+本工具僅供臨床決策輔助，不取代臨床判斷。
