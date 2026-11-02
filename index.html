@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="成人 ARDS 肺保護通氣床邊工具：PBW、Vt、ARDS 嚴重度（P/F 或 S/F）、ARDSNet PEEP/FiO₂、driving pressure、俯臥與 VV-ECMO 評估。">
+<meta name="description" content="成人 ARDS 肺保護通氣床邊工具：PBW、Vt、ARDS 嚴重度（P/F 或 S/F）、ARDSNet PEEP/FiO₂、driving pressure、俯臥與 VV-ECMO 評估，附示範病例、考題與心智圖。">
 <meta name="theme-color" content="#2563eb">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232563eb'/%3E%3Cpath d='M32 14v18M32 32c-4 0-14 4-14 16 0 4 4 4 6 2l8-8M32 32c4 0 14 4 14 16 0 4-4 4-6 2l-8-8' stroke='white' stroke-width='4' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
 
@@ -303,6 +303,424 @@ hr {
     vertical-align:middle;
 }
 
+/* tabs + teaching views */
+.tabs {
+    display:flex;
+    gap:4px;
+    margin-bottom:20px;
+    border-bottom:1px solid var(--border);
+    overflow-x:auto;
+}
+
+.tabs button {
+    width:auto;
+    margin:0;
+    padding:10px 16px;
+    background:none;
+    color:var(--gray);
+    border-radius:0;
+    border-bottom:3px solid transparent;
+    font-size:15px;
+    white-space:nowrap;
+}
+
+.tabs button:hover {
+    background:var(--blue-light);
+}
+
+.tabs button[aria-selected="true"] {
+    color:var(--blue);
+    border-bottom-color:var(--blue);
+}
+
+.view[hidden] {
+    display:none;
+}
+
+.pick {
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-bottom:16px;
+}
+
+.pick button {
+    margin:0;
+    padding:10px 12px;
+    background:white;
+    color:#0f172a;
+    border:1px solid var(--border);
+    text-align:left;
+    font-size:14px;
+}
+
+.pick button:hover {
+    background:var(--blue-light);
+}
+
+.pick button[aria-pressed="true"] {
+    border-color:var(--blue);
+    background:var(--blue-light);
+    color:#1d4ed8;
+}
+
+.pick small {
+    display:block;
+    font-weight:400;
+    color:var(--gray);
+    font-size:12.5px;
+}
+
+.tiles {
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(130px,1fr));
+    gap:8px;
+    margin-top:12px;
+}
+
+.tile {
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:8px 11px;
+    min-width:0;
+}
+
+.tile .k {
+    font-size:12.5px;
+    color:var(--gray);
+}
+
+.tile .v {
+    font-size:21px;
+    font-weight:700;
+}
+
+.tile .v small {
+    font-size:12px;
+    font-weight:400;
+    color:var(--gray);
+    margin-left:3px;
+}
+
+.tile.yellow {
+    background:var(--yellow-light);
+    border-color:var(--yellow);
+}
+
+.tile.yellow .v {
+    color:var(--yellow);
+}
+
+.tile.red {
+    background:var(--red-light);
+    border-color:var(--red);
+}
+
+.tile.red .v {
+    color:var(--red);
+}
+
+.sub-h {
+    font-weight:700;
+    margin-top:18px;
+}
+
+.steps {
+    margin:6px 0 0;
+    padding-left:22px;
+    display:grid;
+    gap:9px;
+    font-size:15px;
+}
+
+.steps b {
+    display:block;
+}
+
+.btn-row {
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:14px;
+}
+
+.btn-row button {
+    width:auto;
+    margin:0;
+    padding:9px 14px;
+    font-size:14px;
+}
+
+.seg {
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+}
+
+.seg button {
+    width:auto;
+    margin:0;
+    padding:7px 12px;
+    font-size:14px;
+    background:white;
+    color:var(--blue);
+    border:1px solid var(--border);
+}
+
+.seg button:hover {
+    background:var(--blue-light);
+}
+
+.seg button[aria-pressed="true"] {
+    background:var(--blue);
+    color:white;
+    border-color:var(--blue);
+}
+
+.quiz-bar {
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    justify-content:space-between;
+}
+
+.level {
+    font-size:12px;
+    font-weight:700;
+    padding:1px 8px;
+    border-radius:99px;
+    background:#e2e8f0;
+    color:#334155;
+}
+
+.level.adv {
+    background:var(--yellow-light);
+    color:var(--yellow);
+}
+
+.opts {
+    display:grid;
+    gap:6px;
+    margin-top:10px;
+}
+
+.opts button {
+    margin:0;
+    padding:9px 12px;
+    background:white;
+    color:#0f172a;
+    border:1px solid var(--border);
+    font-weight:400;
+    font-size:15px;
+    text-align:left;
+}
+
+.opts button:hover:not(:disabled) {
+    background:var(--blue-light);
+}
+
+.opts button:disabled {
+    cursor:default;
+}
+
+.opts button.right {
+    background:var(--green-light);
+    border-color:var(--green);
+}
+
+.opts button.wrong {
+    background:var(--red-light);
+    border-color:var(--red);
+}
+
+.mm {
+    position:relative;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 112px minmax(0,1fr);
+    column-gap:34px;
+    align-items:start;
+}
+
+#mm-links {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
+    pointer-events:none;
+}
+
+#mm-links path {
+    fill:none;
+    stroke-width:2;
+    opacity:.5;
+}
+
+#mm-links path.dx {
+    stroke:var(--blue);
+}
+
+#mm-links path.tx {
+    stroke:var(--green);
+}
+
+.mm-side {
+    position:relative;
+    min-width:0;
+}
+
+.mm-center {
+    position:relative;
+    align-self:center;
+    background:#0f172a;
+    color:white;
+    border-radius:12px;
+    padding:16px 8px;
+    text-align:center;
+    font-weight:700;
+    line-height:1.5;
+}
+
+.mm-col {
+    margin:0 0 10px;
+    font-size:16px;
+}
+
+.mm-col.dx {
+    color:var(--blue);
+}
+
+.mm-col.tx {
+    color:var(--green);
+}
+
+.mm-branch {
+    margin-bottom:10px;
+}
+
+.mm-head {
+    display:grid;
+    grid-template-columns:minmax(0,1fr) auto;
+    margin:0;
+    padding:8px 12px;
+    text-align:left;
+    line-height:1.4;
+    border-radius:8px;
+    font-weight:400;
+}
+
+.mm-branch.tx .mm-head {
+    background:var(--green);
+}
+
+.mm-branch.tx .mm-head:hover {
+    background:#166534;
+}
+
+.mm-head::after {
+    content:"＋";
+    grid-column:2;
+    grid-row:1 / span 2;
+    align-self:center;
+    padding-left:10px;
+}
+
+.mm-head[aria-expanded="true"]::after {
+    content:"－";
+}
+
+.mm-head[aria-expanded="true"] {
+    border-radius:8px 8px 0 0;
+}
+
+.mm-t {
+    font-weight:700;
+    font-size:15px;
+}
+
+.mm-s {
+    font-size:12.5px;
+    opacity:.9;
+    grid-column:1;
+}
+
+.mm-leaves {
+    list-style:none;
+    margin:0;
+    padding:6px 12px;
+    font-size:14px;
+    background:white;
+    border:1px solid var(--border);
+    border-top:0;
+    border-radius:0 0 8px 8px;
+}
+
+.mm-leaves li {
+    padding:4px 0;
+    border-bottom:1px dashed var(--border);
+}
+
+.mm-leaves li:last-child {
+    border-bottom:0;
+}
+
+@media(max-width:850px) {
+
+    .pick {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+    }
+
+    .mm {
+        grid-template-columns:minmax(0,1fr);
+        row-gap:14px;
+    }
+
+    #mm-links {
+        display:none;
+    }
+
+    .mm-center {
+        order:-1;
+        padding:10px;
+    }
+
+    .mm-center br {
+        display:none;
+    }
+
+}
+
+@media(max-width:500px) {
+
+    .pick {
+        grid-template-columns:minmax(0,1fr);
+    }
+
+}
+
+@media print {
+
+    .tabs,
+    #mm-links,
+    .btn-row,
+    .seg {
+        display:none !important;
+    }
+
+    .mm-leaves[hidden] {
+        display:block !important;
+    }
+
+    .mm {
+        grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+    }
+
+    .mm-center {
+        display:none;
+    }
+
+}
+
 @media(max-width:850px) {
 
     .grid {
@@ -360,6 +778,17 @@ hr {
 Global ARDS Definition (2024) / ESICM 2023 / ATS 2024 / ARDSNet / EOLIA
 </div>
 
+
+<nav class="tabs" role="tablist" aria-label="功能分頁">
+<button type="button" role="tab" id="tab-tool" aria-controls="tool" data-t="tool">決策工具</button>
+<button type="button" role="tab" id="tab-cases" aria-controls="cases" data-t="cases">示範病例</button>
+<button type="button" role="tab" id="tab-quiz" aria-controls="quiz" data-t="quiz">考題</button>
+<button type="button" role="tab" id="tab-map" aria-controls="map" data-t="map">心智圖</button>
+</nav>
+
+<section class="view" id="tool" role="tabpanel" aria-labelledby="tab-tool">
+
+<div id="loadNote" class="alert alert-blue" style="margin:0 0 16px" hidden></div>
 
 <div class="grid">
 
@@ -701,9 +1130,63 @@ ARDS 臨床檢查
 
 </div>
 
+</section>
 
 
-<div class="footer">
+<section class="view" id="cases" role="tabpanel" aria-labelledby="tab-cases" hidden>
+
+<div class="small" style="margin-bottom:12px">
+6 個虛構病例，每例都可按按鈕把數字帶回決策工具核對。
+</div>
+
+<div class="pick" id="casePick"></div>
+
+<div id="caseBody"></div>
+
+</section>
+
+
+<section class="view" id="quiz" role="tabpanel" aria-labelledby="tab-quiz" hidden>
+
+<div class="card quiz-bar">
+<div class="seg" id="quizSet">
+<button type="button" data-v="all">全部 20 題</button>
+<button type="button" data-v="basic">基礎 10 題</button>
+<button type="button" data-v="adv">高階 10 題</button>
+</div>
+<div id="quizScore"></div>
+<div class="btn-row" style="margin:0">
+<button type="button" class="secondary" id="quizReset">重新作答</button>
+</div>
+</div>
+
+<div id="quizList"></div>
+
+</section>
+
+
+<section class="view" id="map" role="tabpanel" aria-labelledby="tab-map" hidden>
+
+<div class="card quiz-bar">
+<div class="small">點分支展開重點。內容與決策工具、示範病例一致。</div>
+<div class="btn-row" style="margin:0">
+<button type="button" class="secondary" id="mmOpen">全部展開</button>
+<button type="button" class="secondary" id="mmClose">全部收合</button>
+</div>
+</div>
+
+<div class="mm" id="mm">
+<svg id="mm-links" aria-hidden="true"></svg>
+<div class="mm-side" id="mm-dx"></div>
+<div class="mm-center" id="mm-center">ARDS<br>先確認診斷<br>再保護肺</div>
+<div class="mm-side" id="mm-tx"></div>
+</div>
+
+</section>
+
+
+
+<div class="footer" style="margin-top:20px">
 
 Clinical decision-support tool only.
 所有設定仍須依 ABG、SpO₂、呼吸器波形、plateau pressure、lung compliance、
@@ -722,6 +1205,19 @@ Qadir N, et al. ATS Clinical Practice Guideline Update: ARDS. Am J Respir Crit C
 ARDSNet. N Engl J Med 2000;342:1301–8；ALVEOLI, N Engl J Med 2004;351:327–36.
 Guérin C, et al. PROSEVA. N Engl J Med 2013;368:2159–68.
 Combes A, et al. EOLIA. N Engl J Med 2018;378:1965–75.
+Papazian L, et al. ACURASYS. N Engl J Med 2010;363:1107–16.
+NHLBI PETAL. ROSE. N Engl J Med 2019;380:1997–2008.
+ART Investigators. JAMA 2017;318:1335–45.
+RECOVERY. N Engl J Med 2021;384:693–704.
+Amato MBP, et al. N Engl J Med 2015;372:747–55.
+NHLBI ARDSNet. FACTT. N Engl J Med 2006;354:2564–75.
+Villar J, et al. DEXA-ARDS. Lancet Respir Med 2020;8:267–76.
+Dequin PF, et al. CAPE COD. N Engl J Med 2023;388:1931–41.
+Barrot L, et al. LOCO2. N Engl J Med 2020;382:999–1008.
+Frat JP, et al. FLORALI. N Engl J Med 2015;372:2185–96.
+Ehrmann S, et al. Lancet Respir Med 2021;9:1387–95.
+Roca O, et al. ROX. Am J Respir Crit Care Med 2019;199:1368–76.
+Sinha P, et al. Ventilatory ratio. Am J Respir Crit Care Med 2019;199:333–41.
 
 </div>
 
@@ -1016,6 +1512,205 @@ const ARDS = (() => {
 })();
 /*ENGINE-END*/
 
+/*CASES-START*/
+// Teaching content. Numbers in the text are asserted against ARDS in tests.cjs. Patients are fictional.
+var ACASES = [
+ {id:'vt',t:'Vt 設錯體重',s:'實際體重 88 kg、PBW 只有 52',
+  who:'62 歲女性，身高 160 cm、體重 88 kg，社區型肺炎第 2 天插管後轉入。外院依實際體重設 Vt 480 mL、RR 18、PEEP 10、FiO₂ 0.6。PaO₂ 78；Pplat 33；pH 7.34、PaCO₂ 46。雙側浸潤，心臟超音波左心功能正常。',
+  tiles:[['PBW','52.4','kg'],['Vt / PBW','9.2','mL/kg','red'],['P/F','130','','yellow'],['ΔP','23','cmH₂O','red'],['Crs','20.9','mL/cmH₂O','yellow']],
+  steps:[
+   ['先換算 PBW','45.5 + 0.91 ×（160 − 152.4）= 52.4 kg。480 mL 約是實際體重的 5.5 mL/kg，看起來很保護，換成 PBW 卻是 9.2 mL/kg。肺的大小跟身高有關，跟體重無關。'],
+   ['確認診斷與分級','P/F = 78 ÷ 0.6 = 130，PEEP 10，加上肺炎、雙側浸潤、左心功能正常，屬 moderate ARDS。'],
+   ['降 Vt，同時補 RR','目標 314 mL（6 mL/kg）。ARDSNet 每 ≤2 小時降 1 mL/kg：419 → 367 → 314 mL。原本分鐘通氣約 8.6 L/min，Vt 314 時 RR 約要 28 才能維持；RR 上限 35。'],
+   ['對照 PEEP 表','FiO₂ 0.6：lower table 10、higher table 20。ATS 2024 對 moderate–severe 條件式建議 higher PEEP，ESICM 2023 不表態，表上的 20 不是一步到位的目標。小幅上調，每次看 Pplat、ΔP、血壓。'],
+   ['複評','Vt 315、PEEP 10：Pplat 26、ΔP 16、pH 7.30、PaCO₂ 52，PaO₂ 72（P/F 120）。Vt 與 Pplat 達標，Crs 仍約 20，代表肺本身沒變好，只是應力下降了。'],
+   ['俯臥','Vt 與 PEEP 調整後 P/F 120，FiO₂ 0.6、PEEP ≥5，符合 PROSEVA 條件。早期開始，每次至少 16 小時。']],
+  trap:['「6 mL/kg」沒講哪一種體重。交班時連 PBW 一起講。','身材矮、體重重的女性最容易被設過大 Vt。','Pplat 降了就以為肺改善。要同時看 Crs 與 P/F。'],
+  src:'ARDSNet 2000 與 protocol card；Matthay 2024；Qadir（ATS）2024；Grasselli（ESICM）2023；PROSEVA 2013',
+  load:[
+   {label:'帶入：入院設定',v:{sex:'female',height:'160',fio2:'0.6',peep:'10',oxyMode:'pao2',oxy:'78',vt:'480',plateau:'33',ph:'7.34',paco2:'46',duration:'lt3',optimized:false}},
+   {label:'帶入：Vt 調整後',v:{sex:'female',height:'160',fio2:'0.6',peep:'10',oxyMode:'pao2',oxy:'72',vt:'315',plateau:'26',ph:'7.30',paco2:'52',duration:'lt3',optimized:false}}]},
+ {id:'sf',t:'沒有 ABG',s:'HFNC → 插管，用 S/F 判斷',
+  who:'54 歲男性，身高 175 cm，流感肺炎。HFNC 50 L/min、FiO₂ 0.5：SpO₂ 91%、RR 30；肺超音波雙側 B-lines 與實變，左心功能正常。動脈穿刺多次失敗。6 小時後 FiO₂ 0.8：SpO₂ 88%、RR 38，意識變差而插管。插管後 PEEP 10、FiO₂ 0.6，SpO₂ 99%。',
+  tiles:[['HFNC S/F','182',''],['6 h ROX','2.89','','red'],['插管後 S/F','不適用','','yellow'],['PBW','70.6','kg']],
+  steps:[
+   ['插管前：非插管 ARDS','S/F = 91 ÷ 0.5 = 182 ≤315（SpO₂ ≤97%），HFNC ≥30 L/min，超音波可作影像依據，符合 2024 定義。非插管不分嚴重度，工具的分級欄只適用插管病人。'],
+   ['判斷 HFNC 失敗','ROX =（SpO₂/FiO₂）÷ RR。起初 182 ÷ 30 = 6.07；6 小時後 110 ÷ 38 = 2.89，低於 6 小時的失敗切點 3.47（肺炎病人的研究）。ROX 只是輔助，意識變差本身就是插管理由。'],
+   ['插管後 SpO₂ 99%','S/F 165 不能用來分級，因為 SpO₂ >97% 已在氧解離曲線平坦段。先把 FiO₂ 往下調，而不是直接判讀。'],
+   ['調降後再判讀','FiO₂ 0.4、SpO₂ 94%：S/F 235，剛好落在 moderate（148 < S/F ≤235）。Vt 420 = 6.0 mL/kg，Pplat 24，ΔP 14，Crs 30。'],
+   ['俯臥要看 P/F','工具提示抽 ABG。之後成功抽到 PaO₂ 66，P/F 165：moderate，但未達 <150，暫不俯臥，持續追蹤。S/F 與 P/F 嚴重度一致，但俯臥與 ECMO 的門檻都是以 P/F 定義。'],
+   ['醒著俯臥的定位','ESICM 2023 只在 COVID 弱建議 awake prone（減少插管），非 COVID 不表態。本例是流感，不能直接套用 Ehrmann 2021 的結果。']],
+  trap:['SpO₂ 99% 還在算 S/F。','HFNC 流量不到 30 L/min，資源充足時不符合非插管分類；資源受限版才沒有流量下限。','沒有 ABG 就不診斷 ARDS。S/F 與肺超音波都被 2024 定義接受。'],
+  src:'Matthay 2024；Roca 2019；Grasselli（ESICM）2023；Ehrmann 2021',
+  load:[
+   {label:'帶入：插管後 SpO₂ 99%',v:{sex:'male',height:'175',fio2:'0.6',peep:'10',oxyMode:'spo2',oxy:'99',vt:'420',plateau:'',ph:'',paco2:'',duration:'lt3',optimized:false}},
+   {label:'帶入：FiO₂ 調降後',v:{sex:'male',height:'175',fio2:'0.4',peep:'10',oxyMode:'spo2',oxy:'94',vt:'420',plateau:'24',ph:'7.36',paco2:'44',duration:'lt3',optimized:false}}]},
+ {id:'prone',t:'Severe ARDS 與俯臥',s:'PEEP 試驗、NMBA、類固醇',
+  who:'46 歲男性，身高 172 cm，吸入性肺炎插管第 1 天。Vt 400、PEEP 14、FiO₂ 0.8，PaO₂ 68；Pplat 28；pH 7.31、PaCO₂ 50。深鎮靜下仍有雙重觸發。',
+  tiles:[['PBW','67.8','kg'],['Vt / PBW','5.9','mL/kg'],['P/F','85','','red'],['ΔP','14','cmH₂O'],['Crs','28.6','mL/cmH₂O','yellow']],
+  steps:[
+   ['分級','P/F = 68 ÷ 0.8 = 85，severe。Vt 與 Pplat 已達標，下一步看 PEEP 與俯臥。'],
+   ['PEEP 試驗','FiO₂ 0.8：lower table 14、higher table 20–22。PEEP 14 → 18：Pplat 28 → 34，ΔP 14 → 16，Crs 28.6 → 25，MAP 72 → 60，SpO₂ 上升 3%。氧合變好但 ΔP 上升、Crs 下降、血壓掉，退回 14。'],
+   ['不做長時間 RM','ART 實驗組 28 天死亡率 55.3% vs 49.3%，氣壓傷 5.6% vs 1.6%。ATS 2024 與 ESICM 2023 都強烈反對長時間高壓 RM。'],
+   ['早期俯臥','P/F <150、FiO₂ ≥0.6、PEEP ≥5，每次至少 16 小時。PROSEVA 28 天死亡率 16.0% vs 32.8%。'],
+   ['回仰臥後怎麼判斷','首次俯臥後回仰臥：FiO₂ 0.6、PaO₂ 81，P/F 135，改善不多。條件仍符合就繼續下一次；ESICM 2023 指出氧合未明顯改善時，俯臥仍可能保護肺。'],
+   ['NMBA','本例已深鎮靜仍不同步，是合理對象，連續輸注約 48 小時。ESICM 2023 強烈反對常規使用，ATS 2024 對早期 severe ARDS 條件式建議；ROSE（對照組淺鎮靜）與 ACURASYS（對照組深鎮靜）結果不同。'],
+   ['類固醇與 ECMO','ATS 2024 條件式建議類固醇（DEXA-ARDS：dexamethasone 20 mg d1–5、10 mg d6–10），先確認沒有未控制的感染等禁忌。P/F 85 尚未符合 EOLIA，但此時可先告知 ECMO 中心。']],
+  trap:['只看 SpO₂ 上升就繼續加 PEEP。','第一次俯臥氧合沒起色就放棄。','P/F <150 就反射性開肌鬆。'],
+  src:'ART 2017；PROSEVA 2013；ACURASYS 2010；ROSE 2019；DEXA-ARDS 2020；Qadir（ATS）2024；Grasselli（ESICM）2023',
+  load:[
+   {label:'帶入：PEEP 14',v:{sex:'male',height:'172',fio2:'0.8',peep:'14',oxyMode:'pao2',oxy:'68',vt:'400',plateau:'28',ph:'7.31',paco2:'50',duration:'3to6',optimized:false}},
+   {label:'帶入：PEEP 18 試驗',v:{sex:'male',height:'172',fio2:'0.8',peep:'18',oxyMode:'pao2',oxy:'74',vt:'400',plateau:'34',ph:'7.31',paco2:'50',duration:'3to6',optimized:false}}]},
+ {id:'eolia',t:'難治低血氧',s:'VV-ECMO 何時打電話',
+  who:'38 歲女性，身高 165 cm，流感肺炎插管第 3 天，已俯臥 2 次、已用 NMBA。Vt 340、RR 34、PEEP 16、FiO₂ 1.0，PaO₂ 68；Pplat 30；pH 7.27、PaCO₂ 56。目前這個氧合已持續 4 小時。沒有抗凝禁忌，無重大共病。',
+  tiles:[['PBW','57.0','kg'],['Vt / PBW','6.0','mL/kg'],['P/F','68','','red'],['ΔP','14','cmH₂O'],['持續','4','小時','yellow']],
+  steps:[
+   ['對照 EOLIA','P/F <50 超過 3 小時；P/F <80 超過 6 小時；或 pH <7.25 且 PaCO₂ ≥60 超過 6 小時。本例 P/F 68 才 4 小時，pH 7.27，尚未符合。'],
+   ['現在就打電話','工具顯示「接近門檻」。尚未達標不是等待的理由：聯絡與轉送都要時間，到第 6 小時才開始找中心通常就晚了。'],
+   ['第 8 小時','條件未變：符合 P/F <80 超過 6 小時，工具顯示符合 EOLIA。ESICM 2023 強烈建議依 EOLIA 條件在合格中心使用；ATS 2024 條件式建議用於經選擇的 severe ARDS。'],
+   ['看呼吸器天數','EOLIA 排除插管 ≥7 天者（登錄資料）。本例第 3 天，時間上仍有空間，這也是「早轉介」的理由。'],
+   ['怎麼講證據','60 天死亡率 35% vs 46%，RR 0.76（0.55–1.04），P = .09，未達統計顯著；但對照組 28% 跨組接受 ECMO。出血需輸血 46% vs 28%，要跟家屬講清楚。'],
+   ['不做的事','俯臥與 NMBA 都用了仍惡化，不要改做長時間高壓 RM。']],
+  trap:['等到完全符合才聯絡。','把 EOLIA 講成「證實有效」或「證實無效」都不對。','Vt 6、PEEP、俯臥都還沒做就直接轉 ECMO。'],
+  src:'EOLIA 2018（摘要與 ClinicalTrials.gov 登錄）；Grasselli（ESICM）2023；Qadir（ATS）2024',
+  load:[
+   {label:'帶入：持續 4 小時',v:{sex:'female',height:'165',fio2:'1.0',peep:'16',oxyMode:'pao2',oxy:'68',vt:'340',plateau:'30',ph:'7.27',paco2:'56',duration:'3to6',optimized:true}},
+   {label:'帶入：持續 8 小時',v:{sex:'female',height:'165',fio2:'1.0',peep:'16',oxyMode:'pao2',oxy:'68',vt:'340',plateau:'30',ph:'7.27',paco2:'56',duration:'gt6',optimized:true}}]},
+ {id:'hyper',t:'高碳酸酸血症',s:'Pplat 與 pH 互相牽制',
+  who:'67 歲男性，身高 168 cm，敗血症合併 ARDS 第 4 天。Vt 320、RR 35、PEEP 12、FiO₂ 0.5，PaO₂ 75；Pplat 31；pH 7.20、PaCO₂ 72。已持續 7 小時。HME 仍接在管路上。',
+  tiles:[['Vt / PBW','5.0','mL/kg'],['P/F','150','','yellow'],['ΔP','19','cmH₂O','red'],['Crs','16.8','mL/cmH₂O','red'],['pH','7.20','','red']],
+  steps:[
+   ['先看工具的兩個提示','Pplat 31 >30 → 建議 Vt 降到 4 mL/kg（257 mL）；pH 7.20 → 建議提高 RR。但 RR 已到 35。這兩條規則在本例互相衝突，要由你判斷。'],
+   ['Vt 不能隨便降','分鐘通氣已 11.2 L/min。Vt 再降，PaCO₂ 只會更高。ARDSNet 只有 pH <7.15 且 RR 已到 35 時，才允許 Vt 上調（Pplat 可超過 30）；pH 7.20 沒有這個空間。'],
+   ['算通氣比','VR = 11200 × 72 ÷（64.2 × 100 × 37.5）≈ 3.3，正常約 1。問題是死腔大，不是通氣量不足。'],
+   ['先找可逆原因','RR 35 量 total PEEP 看 auto-PEEP；HME 換加熱潮濕器、縮短 Y 接頭後死腔；處理發燒與過度餵食（CO₂ 產生量）；想一想肺栓塞。'],
+   ['對照 EOLIA','pH <7.25 且 PaCO₂ ≥60 超過 6 小時，且 RR 35、Pplat ≤32，符合第 3 條，工具顯示符合。這條是為這種病人寫的。'],
+   ['不建議 ECCO₂R','ESICM 2023 強烈反對在 RCT 以外使用。NaHCO₃ 在 ARDSNet 也只列 pH <7.15 時「可給」。']],
+  trap:['只看 P/F 150 就覺得沒到 ECMO。EOLIA 第 3 條不看 P/F。','機械式照規則把 Vt 降到 4。','RR 35 卻沒量 auto-PEEP。'],
+  src:'ARDSNet protocol card；EOLIA 2018；Sinha 2019；Grasselli（ESICM）2023',
+  load:[{label:'帶入：持續 7 小時',v:{sex:'male',height:'168',fio2:'0.5',peep:'12',oxyMode:'pao2',oxy:'75',vt:'320',plateau:'31',ph:'7.20',paco2:'72',duration:'gt6',optimized:true}}]},
+ {id:'mimic',t:'不是 ARDS',s:'數字符合，診斷不符',
+  who:'74 歲女性，身高 158 cm，急性心肌梗塞 2 天後突然喘，插管。Vt 320、PEEP 8、FiO₂ 0.6，PaO₂ 84；Pplat 20；pH 7.33、PaCO₂ 44。胸部 X 光雙側浸潤。心臟超音波 LVEF 25%、中重度二尖瓣逆流，IVC 脹滿；無感染、吸入或其他 ARDS 危險因子。',
+  tiles:[['P/F','140','','yellow'],['PBW','50.6','kg'],['Vt / PBW','6.3','mL/kg'],['ΔP','12','cmH₂O'],['Crs','26.7','mL/cmH₂O','yellow']],
+  steps:[
+   ['工具只看數字','P/F 140、PEEP 8：工具顯示 moderate，並提示俯臥。工具不會知道 LVEF。'],
+   ['回到定義','沒有危險因子，肺水腫可由心衰竭完全解釋，不符合 2024 定義的「不能完全由心因性肺水腫或 fluid overload 解釋」。兩者可以並存，有危險因子時不能只因 LVEF 低就排除 ARDS。'],
+   ['不要俯臥與 ARDS 輔助治療','俯臥、NMBA、ARDS 劑量類固醇與 ECMO 轉介都不是為這個病生理設計的。處理冠心症、利尿、降後負荷，評估機械併發症與循環支持。'],
+   ['呼吸器設定還是要合理','Vt 6.3 mL/kg、Pplat 20 已可接受，不需為了「符合 ARDS」改設定。PEEP 對心衰竭左室後負荷有幫助，但要看血壓。'],
+   ['48 小時後','利尿後 PEEP 5、FiO₂ 0.3、PaO₂ 105：P/F 350，已不到門檻。這麼快回復本身也支持心因性。'],
+   ['補充：若真是 ARDS 的體液','FACTT 保守輸液：60 天死亡率 25.5% vs 28.4%（P = .30），無呼吸器天數 14.6 vs 12.1。休克解除後才適用。']],
+  trap:['P/F 低加雙側浸潤就寫 ARDS。','LVEF 低就排除 ARDS（兩者可並存）。','沒做心臟超音波就啟動俯臥。'],
+  src:'Matthay 2024；FACTT 2006',
+  load:[
+   {label:'帶入：插管當下',v:{sex:'female',height:'158',fio2:'0.6',peep:'8',oxyMode:'pao2',oxy:'84',vt:'320',plateau:'20',ph:'7.33',paco2:'44',duration:'lt3',optimized:false}},
+   {label:'帶入：利尿 48 小時後',v:{sex:'female',height:'158',fio2:'0.3',peep:'5',oxyMode:'pao2',oxy:'105',vt:'320',plateau:'15',ph:'7.40',paco2:'40',duration:'lt3',optimized:false}}]}
+];
+/*CASES-END*/
+
+/*QUIZ-START*/
+// a = index into o as written (fixed order, A–D 5 each). Calculations are asserted in tests.cjs.
+var AQUIZ = [
+ {l:'basic',q:'男性，身高 180 cm，實際體重 90 kg，ARDS。Vt 6 mL/kg 應設多少？',o:['約 360 mL','約 450 mL','約 540 mL','約 600 mL'],a:1,x:'PBW = 50 + 0.91 ×（180 − 152.4）= 75.1 kg，6 mL/kg ≈ 451 mL。540 mL 是實際體重算出來的，600 mL 約是 8 mL/kg PBW。',src:'ARDSNet 2000'},
+ {l:'basic',q:'插管，PEEP 10，PaO₂ 70、FiO₂ 0.8，雙側浸潤，非心因性，1 週內發生。嚴重度？',o:['Mild','Moderate','Severe','無法分級'],a:2,x:'P/F = 87.5 ≤100，severe。Mild 200 < P/F ≤300、moderate 100 < P/F ≤200。',src:'Matthay 2024'},
+ {l:'basic',q:'插管，PEEP 10，FiO₂ 0.5，SpO₂ 99%，沒有 ABG。該怎麼分級？',o:['S/F 198，moderate','S/F 198，severe','把 S/F 直接套 P/F 切點','先調降 FiO₂ 到 SpO₂ ≤97%'],a:3,x:'S/F 只在 SpO₂ ≤97% 時有效。調降 FiO₂ 後再算，或抽 ABG。S/F 切點是 315／235／148，與 P/F 不同。',src:'Matthay 2024'},
+ {l:'basic',q:'Vt 360 mL、Pplat 28、PEEP 12。ΔP 與 Crs？',o:['ΔP 16、Crs 22.5','ΔP 28、Crs 12.9','ΔP 12、Crs 30','ΔP 40、Crs 9'],a:0,x:'ΔP = Pplat − total PEEP = 16；Crs = Vt ÷ ΔP = 360 ÷ 16 = 22.5 mL/cmH₂O。',src:'決策工具'},
+ {l:'basic',q:'Vt 已 6 mL/kg PBW，Pplat 33，pH 7.36。依 ARDSNet 下一步？',o:['維持不變，Pplat 在 35 以內都可接受','Vt 升 1 mL/kg','Vt 降 1 mL/kg（最低 4）','先把 PEEP 降到 5 讓 Pplat 達標'],a:2,x:'Pplat >30 每次降 1 mL/kg，最低 4 mL/kg。同時檢查 auto-PEEP、胸壁與腹壓、不同步。',src:'ARDSNet protocol card'},
+ {l:'basic',q:'Vt 6 mL/kg、Pplat 26、RR 26，pH 7.24、PaCO₂ 58。依 ARDSNet 下一步？',o:['提高 RR（上限 35）','Vt 升到 8 mL/kg，先把 PaCO₂ 拉下來','立刻給 NaHCO₃ 矯正到 pH 7.40','立刻轉 ECMO'],a:0,x:'pH 7.15–7.30：提高 RR 直到 pH >7.30 或 PaCO₂ <25。NaHCO₃ 與上調 Vt 是 pH <7.15 且 RR 已到 35 才考慮。',src:'ARDSNet protocol card'},
+ {l:'basic',q:'ARDSNet higher PEEP table，FiO₂ 0.4 對應的 PEEP？',o:['5–8','8–10','10–12','14–16'],a:3,x:'Higher table FiO₂ 0.4 為 14、16。5–8 是 lower table FiO₂ 0.4。',src:'ARDSNet protocol card'},
+ {l:'basic',q:'ARDSNet 的氧合目標？',o:['PaO₂ 90–105、SpO₂ ≥96%','PaO₂ 55–80、SpO₂ 88–95%','PaO₂ >150','PaO₂ 40–55、SpO₂ 80–88%'],a:1,x:'ARDSNet 目標為 PaO₂ 55–80 或 SpO₂ 88–95%。LOCO2 把下限壓在 PaO₂ 55–70 的組別，28 天死亡率未較好（34.3% vs 26.5%）且提早終止，所以不要刻意貼著最低值。',src:'ARDSNet protocol card；LOCO2 2020'},
+ {l:'basic',q:'PROSEVA 的俯臥條件與每次時間？',o:['P/F <150、FiO₂ ≥0.6，≥16 小時','P/F ≤300、FiO₂ ≥0.4，每次 4 小時','P/F ≤100 且 PEEP ≥15，每次 8 小時','ECMO 上機後才做，每次 12 小時'],a:0,x:'另需 PEEP ≥5、Vt 約 6 mL/kg。28 天死亡率 16.0% vs 32.8%。ESICM 2023 強烈建議 ≥16 小時；ATS 2024 對 severe ARDS 強烈建議 >12 小時/天。',src:'PROSEVA 2013；Grasselli 2023；Qadir 2024'},
+ {l:'basic',q:'2024 全球定義的時序與影像條件？',o:['72 小時內；只接受胸部 CT','48 小時內；只接受胸部 X 光','1 週內；X 光、CT 或超音波','2 週內；有低血氧就不需要影像'],a:2,x:'危險因子或症狀新發／惡化 1 週內。超音波可接受雙側 B-lines 和／或實變，操作者須受過訓練。',src:'Matthay 2024'},
+ {l:'adv',q:'資源充足的 ICU。未插管，HFNC 25 L/min、FiO₂ 0.5、SpO₂ 93%，雙側超音波異常，肺炎 2 天，心功能正常。依 2024 定義？',o:['符合非插管 ARDS，S/F 186 已達標','符合，且 S/F 186 應分級為 moderate','S/F 不適用，一定要有 ABG','流量未達 30 L/min，尚不符合'],a:3,x:'S/F 186 已達標，但非插管分類要 HFNC ≥30 L/min 或 NIV/CPAP ≥5。沒有流量下限的是資源受限版。非插管也不分嚴重度。',src:'Matthay 2024'},
+ {l:'adv',q:'ESICM 2023 對肺泡擴張（RM）的建議？',o:['長時間與短暫都建議作為常規','長時間強烈反對，短暫弱反對','兩者證據都不足，所以不表態','只反對短暫 RM，長時間可用於救援'],a:1,x:'長時間（≥35 cmH₂O、≥1 分鐘）強烈反對；短暫（<1 分鐘）弱反對。ART 實驗組 28 天死亡率 55.3% vs 49.3%。ATS 2024 同樣強烈反對長時間 RM。',src:'Grasselli 2023；Qadir 2024；ART 2017'},
+ {l:'adv',q:'Moderate–severe ARDS 是否用 higher PEEP？ATS 2024 與 ESICM 2023 的立場？',o:['ATS 條件式建議，ESICM 不表態','兩者都強烈建議 higher PEEP','兩者都強烈反對 higher PEEP','ESICM 強烈建議，ATS 條件式反對'],a:0,x:'ATS 2024 條件式建議 higher PEEP，且不併用長時間 RM。ESICM 2023 對 higher vs lower PEEP/FiO₂ 不作建議。ALVEOLI 死亡率 24.9% vs 27.5%（P = .48）。',src:'Qadir 2024；Grasselli 2023；ALVEOLI 2004'},
+ {l:'adv',q:'Vt 360，PEEP 10 → 14：Pplat 26 → 28，SpO₂ 上升，血壓穩定。如何解讀？',o:['過度膨脹，應退回 PEEP 10','Pplat 上升就代表應力變大，應退回','ΔP 16 → 14、Crs 上升，可保留','氧合改善就好，PEEP 繼續往上加'],a:2,x:'Crs 22.5 → 25.7，肺有可擴張部分。對比 ΔP 上升、Crs 下降、血壓掉的情境就要退回。ESICM 2023 對依力學滴定 PEEP 不作建議，這是床邊判讀，不是已驗證的目標。',src:'決策工具；Grasselli 2023'},
+ {l:'adv',q:'Vt 6 mL/kg、PEEP ≥10、FiO₂ ≥0.8 已最佳化。誰符合 EOLIA？',o:['P/F 70，持續 4 小時','P/F 95，持續 24 小時','pH 7.22、PaCO₂ 52，持續 8 小時','P/F 46，持續 4 小時'],a:3,x:'P/F <50 超過 3 小時符合。A 要 >6 小時；B 未達 80；C 的 PaCO₂ 未達 60。A 雖未達標，也該現在就聯絡 ECMO 中心。',src:'EOLIA 2018'},
+ {l:'adv',q:'EOLIA 60 天死亡率 35% vs 46%（P = .09）。最恰當的解讀？',o:['P > .05，所以證實 ECMO 無效','未達顯著，但對照組 28% 跨組','死亡率差 11%，所以證實 ECMO 有效','ECMO 組出血較少，所以風險較低'],a:1,x:'RR 0.76（0.55–1.04）。對照組 35 人跨組 ECMO，其中 57% 死亡，會影響解讀。出血需輸血 46% vs 28%。ESICM 2023 強烈建議、ATS 2024 條件式建議用於經選擇的 severe ARDS。',src:'EOLIA 2018；Grasselli 2023；Qadir 2024'},
+ {l:'adv',q:'ACURASYS 與 ROSE 結果不同。最重要的設計差異？',o:['對照組鎮靜深度：深 vs 淺','ACURASYS 用 cisatracurium，ROSE 用 rocuronium','ACURASYS 收 P/F >300 的輕症病人','ROSE 只收 COVID-19 肺炎病人'],a:0,x:'ACURASYS 校正後 90 天 HR 0.68，對照組深鎮靜。ROSE 90 天死亡率 42.5% vs 42.8%，對照組淺鎮靜，收 PEEP ≥8。兩者都用 cisatracurium 48 小時。ESICM 2023 強烈反對常規輸注；ATS 2024 對早期 severe ARDS 條件式建議。',src:'ACURASYS 2010；ROSE 2019'},
+ {l:'adv',q:'DEXA-ARDS 的收案與劑量？',o:['所有 ARDS：dexamethasone 6 mg × 10 天','P/F ≤300：hydrocortisone 200 mg/天 × 30 天','P/F ≤200：dexamethasone 20 → 10 mg','P/F ≤150：methylprednisolone 1 g/天 × 3 天'],a:2,x:'FiO₂ ≥0.5、d1–5 20 mg、d6–10 10 mg，60 天死亡率 21% vs 36%。6 mg 是 RECOVERY（COVID，插管組 29.3% vs 41.4%）。CAPE COD 的 hydrocortisone 收的是 severe CAP，不是 ARDS。ATS 2024 條件式建議類固醇。',src:'DEXA-ARDS 2020；RECOVERY 2021；CAPE COD 2023；Qadir 2024'},
+ {l:'adv',q:'Vt 5 mL/kg、RR 35、Pplat 31，P/F 150，pH 7.21、PaCO₂ 70，已持續 7 小時。最合理？',o:['Vt 升到 8 mL/kg，Pplat 可超過 30','改用 ECCO₂R，不必聯絡 ECMO 中心','給 NaHCO₃，P/F 150 未達門檻再等 48 小時','找死腔與 auto-PEEP，同時聯絡 ECMO'],a:3,x:'符合 EOLIA 第 3 條（pH <7.25、PaCO₂ ≥60 超過 6 小時，RR 35、Pplat ≤32），不看 P/F。ARDSNet 上調 Vt 要 pH <7.15。ESICM 2023 強烈反對 RCT 外使用 ECCO₂R。',src:'EOLIA 2018；ARDSNet protocol card；Grasselli 2023'},
+ {l:'adv',q:'Amato 2015 對 driving pressure 的研究，能支持哪個說法？',o:['RCT 證實把 ΔP 限制在 15 以下可降低死亡率','9 個 RCT 的中介分析，ΔP 與死亡相關','ΔP 與死亡率無關，Vt 才是獨立因子','結果只適用於 Pplat >30 的病人'],a:1,x:'3562 名病人，ΔP 每升 1 SD（約 7 cmH₂O）死亡 RR 1.41；Vt 與 PEEP 的變動只有在 ΔP 下降時才與存活相關。這是觀察性分析，未前瞻驗證 ΔP 為治療目標，所以工具把 15 當監測訊號。',src:'Amato 2015'}
+];
+/*QUIZ-END*/
+
+/*MAP-START*/
+// Leaves restate rules in ARDS and the case/quiz text; update by hand when those change.
+var AMAP = {
+ dx:[
+  {t:'確認是 ARDS',s:'2024 全球定義四要件',l:[
+   ['時序','危險因子或症狀新發／惡化 1 週內'],
+   ['影像','雙側 X 光／CT，或受訓操作者的超音波 B-lines／實變'],
+   ['來源','不能完全由心因性肺水腫或 fluid overload 解釋'],
+   ['氧合','依三種分類：插管、非插管、資源受限'],
+   ['可並存','LVEF 低不排除 ARDS；沒有危險因子就要懷疑']]},
+  {t:'分類與嚴重度',s:'只有插管才分級',l:[
+   ['插管','PEEP ≥5：P/F 或 S/F 分級'],
+   ['Mild','200 < P/F ≤300；235 < S/F ≤315'],
+   ['Moderate','100 < P/F ≤200；148 < S/F ≤235'],
+   ['Severe','P/F ≤100；S/F ≤148'],
+   ['非插管','HFNC ≥30 L/min 或 NIV/CPAP ≥5；P/F ≤300 或 S/F ≤315；不分級'],
+   ['資源受限','S/F ≤315，無 PEEP 與流量下限'],
+   ['S/F 限制','SpO₂ ≤97% 才有效']]},
+  {t:'力學判讀',s:'Pplat、ΔP、Crs 一起看',l:[
+   ['PBW','男 50、女 45.5，加 0.91 ×（身高 − 152.4）'],
+   ['Pplat','目標 ≤30；胸壁與腹壓高時會高估肺壓'],
+   ['ΔP','Pplat − total PEEP；15 是監測訊號，非絕對目標'],
+   ['Crs','Vt ÷ ΔP；Vt 降了 Crs 不變，代表肺沒變好'],
+   ['PEEP 反應','ΔP 降、Crs 升、血壓穩可留；相反就退回']]},
+  {t:'酸鹼與 CO₂',s:'pH 目標 7.30–7.45',l:[
+   ['pH 7.15–7.30','提高 RR 到 pH >7.30 或 PaCO₂ <25，上限 35'],
+   ['pH <7.15','RR 35；仍低可上調 Vt，Pplat 可超過 30；可給 NaHCO₃'],
+   ['通氣比 VR','MV × PaCO₂ ÷（PBW × 100 × 37.5），正常約 1'],
+   ['VR 高','查死腔、auto-PEEP、肺栓塞、CO₂ 產生量'],
+   ['氧合目標','PaO₂ 55–80 或 SpO₂ 88–95%']]},
+  {t:'未插管時',s:'HFNC 失敗要早認出',l:[
+   ['HFNO','ESICM 強烈建議優於一般氧氣（減少插管）'],
+   ['ROX','（SpO₂/FiO₂）÷ RR；≥4.88 插管風險較低'],
+   ['ROX 失敗','2／6／12 小時 <2.85／3.47／3.85'],
+   ['Awake prone','ESICM 僅 COVID 弱建議；非 COVID 不表態'],
+   ['FLORALI','插管率 HFNC 38%、一般氧氣 47%、NIV 50%（P = .18）']]}
+ ],
+ tx:[
+  {t:'肺保護通氣',s:'Vt 6 mL/kg PBW',l:[
+   ['起始','Vt 6；超過時每 ≤2 小時降 1 mL/kg，同時補 RR'],
+   ['Pplat >30','Vt 降 1 mL/kg，最低 4'],
+   ['Pplat <25 且 Vt <6','升 1 mL/kg 回到 6'],
+   ['證據','ARMA 死亡率 31.0% vs 39.8%'],
+   ['指引','ESICM 4–8 mL/kg 強烈建議']]},
+  {t:'PEEP',s:'指引立場不同',l:[
+   ['Lower table','0.4/5–8、0.6/10、0.8/14、1.0/18–24'],
+   ['Higher table','0.4/14–16、0.6/20、0.8/20–22、1.0/22–24'],
+   ['ATS 2024','Moderate–severe 條件式建議 higher PEEP，不併長時間 RM'],
+   ['ESICM 2023','Higher vs lower 不表態'],
+   ['長時間 RM','兩指引都強烈反對；ART 死亡率 55.3% vs 49.3%']]},
+  {t:'俯臥',s:'P/F <150 早期開始',l:[
+   ['條件','P/F <150、FiO₂ ≥0.6、PEEP ≥5'],
+   ['時間','每次 ≥16 小時（ESICM）；>12 小時/天（ATS）'],
+   ['證據','PROSEVA 28 天死亡率 16.0% vs 32.8%'],
+   ['氧合沒改善','條件仍符合就繼續'],
+   ['先排除','心因性肺水腫等非 ARDS 情況']]},
+  {t:'NMBA、類固醇、體液',s:'選擇使用',l:[
+   ['NMBA','ESICM 反對常規；ATS 條件式建議早期 severe'],
+   ['ROSE／ACURASYS','42.5% vs 42.8%／校正 HR 0.68；對照組鎮靜深度不同'],
+   ['類固醇','ATS 條件式建議；DEXA-ARDS 20 → 10 mg × 10 天'],
+   ['體液','FACTT：死亡率無差異，無呼吸器天數 14.6 vs 12.1']]},
+  {t:'VV-ECMO',s:'Early referral',l:[
+   ['P/F <50','持續 >3 小時'],
+   ['P/F <80','持續 >6 小時'],
+   ['pH <7.25、PaCO₂ ≥60','持續 >6 小時（RR 35、Pplat ≤32）'],
+   ['時機','接近門檻就打電話；EOLIA 排除插管 ≥7 天'],
+   ['證據','35% vs 46%，P = .09，跨組 28%；出血 46% vs 28%'],
+   ['指引','ESICM 強烈建議（合格中心）；ATS 條件式建議']]},
+  {t:'不建議',s:'看到要停下來想',l:[
+   ['長時間高壓 RM','ATS、ESICM 都強烈反對'],
+   ['ECCO₂R','ESICM 強烈反對 RCT 外使用'],
+   ['例行 NMBA','ESICM 強烈反對'],
+   ['Vt 用實際體重','一律用 PBW'],
+   ['為了數字加 PEEP','ΔP 升、血壓掉就退回']]}
+ ]
+};
+/*MAP-END*/
+
 
 const $ = id => document.getElementById(id);
 const FIELDS = ["sex", "height", "fio2", "peep", "oxyMode", "oxy", "vt", "plateau", "ph", "paco2", "duration", "optimized"];
@@ -1156,10 +1851,147 @@ FIELDS.forEach(f => {
     $(f).addEventListener("input", render);
     $(f).addEventListener("change", render);
 });
-$("resetDemo").addEventListener("click", () => fill(DEMO));
-$("clearAll").addEventListener("click", () => fill({ sex:"male", oxyMode:"pao2", duration:"lt3" }));
+$("resetDemo").addEventListener("click", () => { $("loadNote").hidden = true; fill(DEMO); });
+$("clearAll").addEventListener("click", () => { $("loadNote").hidden = true; fill({ sex:"male", oxyMode:"pao2", duration:"lt3" }); });
 
 render();
+
+/* ---------- tabs ---------- */
+const TABS = ["tool", "cases", "quiz", "map"];
+
+function showTab(t, keepHash) {
+    TABS.forEach(k => {
+        $(k).hidden = k !== t;
+        $("tab-" + k).setAttribute("aria-selected", k === t);
+    });
+    if (!keepHash) history.replaceState(null, "", "#" + t);
+    if (t === "map") drawMap();
+}
+
+document.querySelectorAll(".tabs button").forEach(b => b.addEventListener("click", () => showTab(b.dataset.t)));
+window.addEventListener("hashchange", () => {
+    const h = location.hash.slice(1);
+    if (TABS.includes(h)) showTab(h, true);
+});
+
+
+/* ---------- cases ---------- */
+let caseId = ACASES[0].id;
+
+$("casePick").innerHTML = ACASES.map((c, i) =>
+    '<button type="button" data-v="' + c.id + '">' + (i + 1) + ". " + esc(c.t) + "<small>" + esc(c.s) + "</small></button>"
+).join("");
+
+$("casePick").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (b) { caseId = b.dataset.v; renderCase(); }
+});
+
+function renderCase() {
+    document.querySelectorAll("#casePick button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === caseId));
+    const i = ACASES.findIndex(c => c.id === caseId), c = ACASES[i];
+    $("caseBody").innerHTML = '<div class="card"><div class="section-title">病例 ' + (i + 1) + "：" + esc(c.t) + "</div>"
+        + "<div>" + esc(c.who) + "</div>"
+        + '<div class="tiles">' + c.tiles.map(x => '<div class="tile ' + (x[3] || "") + '"><div class="k">' + esc(x[0]) + '</div><div class="v">' + esc(x[1]) + "<small>" + esc(x[2]) + "</small></div></div>").join("") + "</div>"
+        + '<div class="sub-h">逐步判斷</div><ol class="steps">' + c.steps.map(s => "<li><b>" + esc(s[0]) + "</b>" + esc(s[1]) + "</li>").join("") + "</ol>"
+        + '<div class="sub-h">常見陷阱</div><div class="alert alert-yellow" style="margin-top:6px"><ul style="margin:0">' + c.trap.map(t => "<li>" + esc(t) + "</li>").join("") + "</ul></div>"
+        + '<div class="small" style="margin-top:10px">依據：' + esc(c.src) + "</div>"
+        + '<div class="btn-row">' + c.load.map((l, k) => '<button type="button" class="' + (k ? "secondary" : "") + '" data-k="' + k + '">' + esc(l.label) + "</button>").join("") + "</div></div>";
+}
+
+$("caseBody").addEventListener("click", e => {
+    const b = e.target.closest("button[data-k]");
+    if (!b) return;
+    const i = ACASES.findIndex(c => c.id === caseId), l = ACASES[i].load[+b.dataset.k];
+    fill(l.v);
+    $("loadNote").hidden = false;
+    $("loadNote").innerHTML = "已帶入病例 " + (i + 1) + "（" + esc(l.label) + "），可直接修改。<a href=\"#cases\">回到病例</a>";
+    showTab("tool");
+    window.scrollTo(0, 0);
+});
+
+
+/* ---------- exam ---------- */
+const X = { set:"all", a:{} };
+
+function renderQuiz() {
+    document.querySelectorAll("#quizSet button").forEach(b => b.setAttribute("aria-pressed", b.dataset.v === X.set));
+    const all = AQUIZ.map((q, i) => ({ ...q, i }));
+    const items = all.filter(q => X.set === "all" || q.l === X.set);
+    const done = items.filter(q => X.a[q.i] !== undefined);
+    const by = l => {
+        const d = all.filter(q => q.l === l && X.a[q.i] !== undefined);
+        return d.filter(q => X.a[q.i] === q.a).length + "／" + d.length;
+    };
+    $("quizScore").innerHTML = "已答 <strong>" + done.length + "／" + items.length + "</strong>，答對 <strong>" + done.filter(q => X.a[q.i] === q.a).length
+        + '</strong> <span class="small">基礎 ' + by("basic") + "・高階 " + by("adv") + "</span>";
+    $("quizList").innerHTML = items.map(q => {
+        const ans = X.a[q.i], answered = ans !== undefined;
+        return '<div class="card" id="q' + q.i + '"><span class="small">第 ' + (q.i + 1) + ' 題</span> <span class="level ' + (q.l === "adv" ? "adv" : "") + '">' + (q.l === "adv" ? "高階" : "基礎") + "</span>"
+            + '<div style="margin-top:6px;font-weight:600">' + esc(q.q) + "</div>"
+            + '<div class="opts">' + q.o.map((o, k) =>
+                '<button type="button" data-q="' + q.i + '" data-k="' + k + '" ' + (answered ? "disabled" : "") + ' class="' + (!answered ? "" : k === q.a ? "right" : k === ans ? "wrong" : "") + '">' + String.fromCharCode(65 + k) + ". " + esc(o) + "</button>"
+            ).join("") + "</div>"
+            + (answered ? '<div class="alert ' + (ans === q.a ? "alert-green" : "alert-yellow") + '"><strong>' + (ans === q.a ? "正確" : "答案：" + String.fromCharCode(65 + q.a)) + "</strong><br>" + esc(q.x) + '<div class="small" style="margin-top:6px">依據：' + esc(q.src) + "</div></div>" : "")
+            + "</div>";
+    }).join("");
+}
+
+$("quizList").addEventListener("click", e => {
+    const b = e.target.closest("button[data-q]");
+    if (!b) return;
+    const q = +b.dataset.q;
+    X.a[q] = +b.dataset.k;
+    renderQuiz();
+    $("q" + q).scrollIntoView({ block:"nearest" });
+});
+$("quizSet").addEventListener("click", e => {
+    const b = e.target.closest("button");
+    if (b) { X.set = b.dataset.v; renderQuiz(); }
+});
+$("quizReset").addEventListener("click", () => { X.a = {}; renderQuiz(); window.scrollTo(0, 0); });
+
+
+/* ---------- mind map ---------- */
+function mapBranch(b, side, i) {
+    return '<div class="mm-branch ' + side + '"><button type="button" class="mm-head" aria-expanded="false" aria-controls="mm-' + side + i + '"><span class="mm-t">' + (i + 1) + ". " + esc(b.t) + '</span><span class="mm-s">' + esc(b.s) + '</span></button><ul class="mm-leaves" id="mm-' + side + i + '" hidden>'
+        + b.l.map(x => "<li><strong>" + esc(x[0]) + "</strong>　" + esc(x[1]) + "</li>").join("") + "</ul></div>";
+}
+
+$("mm-dx").innerHTML = '<h3 class="mm-col dx">評估與判讀</h3>' + AMAP.dx.map((b, i) => mapBranch(b, "dx", i)).join("");
+$("mm-tx").innerHTML = '<h3 class="mm-col tx">處置與時機</h3>' + AMAP.tx.map((b, i) => mapBranch(b, "tx", i)).join("");
+
+function drawMap() {
+    const w = $("mm"), svg = $("mm-links");
+    if (w.offsetParent === null || getComputedStyle(svg).display === "none") return;
+    const W = w.getBoundingClientRect(), C = $("mm-center").getBoundingClientRect();
+    svg.setAttribute("viewBox", "0 0 " + W.width + " " + W.height);
+    svg.innerHTML = [...document.querySelectorAll("#mm .mm-branch")].map(b => {
+        const dx = b.classList.contains("dx"), r = b.querySelector(".mm-head").getBoundingClientRect();
+        const x1 = (dx ? C.left : C.right) - W.left, y1 = C.top + C.height / 2 - W.top;
+        const x2 = (dx ? r.right : r.left) - W.left, y2 = r.top + r.height / 2 - W.top, mx = (x1 + x2) / 2;
+        return '<path class="' + (dx ? "dx" : "tx") + '" d="M' + x1 + " " + y1 + " C" + mx + " " + y1 + " " + mx + " " + y2 + " " + x2 + " " + y2 + '"/>';
+    }).join("");
+}
+
+const mmSet = (h, open) => {
+    h.setAttribute("aria-expanded", open);
+    $(h.getAttribute("aria-controls")).hidden = !open;
+};
+
+$("mm").addEventListener("click", e => {
+    const h = e.target.closest(".mm-head");
+    if (h) { mmSet(h, h.getAttribute("aria-expanded") !== "true"); drawMap(); }
+});
+$("mmOpen").addEventListener("click", () => { document.querySelectorAll("#mm .mm-head").forEach(h => mmSet(h, true)); drawMap(); });
+$("mmClose").addEventListener("click", () => { document.querySelectorAll("#mm .mm-head").forEach(h => mmSet(h, false)); drawMap(); });
+window.addEventListener("resize", drawMap);
+
+
+renderCase();
+renderQuiz();
+const startTab = location.hash.slice(1);
+showTab(TABS.includes(startTab) ? startTab : "tool", !TABS.includes(startTab));
 </script>
 
 </body>

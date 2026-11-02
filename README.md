@@ -274,6 +274,15 @@ Early referral, not late rescue
 
 ---
 
+# v2.1 更新（2026-11-02）
+
+- 分頁：決策工具、示範病例（`#cases`）、考題（`#quiz`）、心智圖（`#map`）；決策引擎未更動
+- 示範病例 6 例：Vt 設錯體重、沒有 ABG、severe 與俯臥、難治低血氧、高碳酸酸血症、不是 ARDS。每例可把數字帶回決策工具
+- 考題 20 題：基礎 10、高階 10，答案 A–D 各 5 題，順序固定，不儲存作答
+- 內容在 `index.html` 的 `/*CASES-START*/`、`/*QUIZ-START*/`、`/*MAP-START*/`，數字由 `tests.cjs` 對照引擎
+
+---
+
 # 使用方式
 
 純 HTML / CSS / JavaScript，單一 `index.html`，直接開啟即可，或使用 GitHub Pages：
@@ -308,6 +317,7 @@ ARDS-ventilatior/
 - ARDSNet. N Engl J Med 2000;342:1301–8；ALVEOLI. N Engl J Med 2004;351:327–36.
 - Guérin C, et al. PROSEVA. N Engl J Med 2013;368:2159–68.
 - Combes A, et al. EOLIA. N Engl J Med 2018;378:1965–75.
+- 示範病例與考題另引用之試驗，見網頁頁尾。
 
 ---
 
